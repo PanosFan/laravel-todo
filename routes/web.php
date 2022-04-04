@@ -20,6 +20,7 @@ Auth::routes();
 // home page
 Route::get('/', function () {
     return redirect()->route('home');
+    // return redirect()->route('todo.index')->with('status', 'gratz'); gia na min to ksexaso
 });
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 

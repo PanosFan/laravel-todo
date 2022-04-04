@@ -17,7 +17,7 @@ class TodosController extends Controller
      */
     public function index()
     {
-        return 1;
+        return view('todos.index');
     }
 
     /**
@@ -27,7 +27,7 @@ class TodosController extends Controller
      */
     public function create()
     {
-        //
+        return view('todos.create');
     }
 
     /**

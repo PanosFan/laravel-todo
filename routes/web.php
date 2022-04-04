@@ -14,12 +14,15 @@ use Illuminate\Support\Facades\Auth;
 |
 */
 
+// auth
+Auth::routes();
+
+// home page
 Route::get('/', function () {
     return redirect()->route('home');
 });
-
-
-Auth::routes();
-
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+
+//todos resource
 Route::resource('todo', 'App\Http\Controllers\TodosController');

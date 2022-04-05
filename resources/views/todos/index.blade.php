@@ -10,12 +10,6 @@
                         <a href="{{ route('todo.create') }}" class="btn btn-outline-primary">Add something</a>
                     </div>
                     <div class="card-body">
-                        @if (session('status'))
-                            <div class="alert alert-success" role="alert">
-                                {{ session('status') }}
-                            </div>
-                        @endif
-
                         <table class="table table-hover table-borderless">
                             <thead>
                                 <th scope="col">Todos</th>
@@ -38,18 +32,11 @@
                                         @endif
 
                                         <td>
-                                            <a href="{{ route('todo.edit', $todo->id) }}"
-                                                class="btn btn-outline-success">Edit</a>
-                                            {{-- <form action="{{ route('todo.edit', $todo->id) }}">
-                                                @csrf
-                                                @method('put')
-                                                <button type="submit" class="btn-sm btn-outline-info">Edit</button>
-                                            </form> --}}
-                                            {{-- <a href="{{ route('todo.destroy', $todo->id) }}"
-                                                class="btn-sm btn-outline-danger">Delete</a> --}}
                                             <form action="{{ route('todo.destroy', $todo->id) }}" method="post">
                                                 @csrf
                                                 @method('delete')
+                                                <a href="{{ route('todo.edit', $todo->id) }}"
+                                                    class="btn btn-outline-success">Edit</a>
                                                 <button type="submit" class="btn-sm btn-outline-danger">Delete</button>
                                             </form>
                                         </td>

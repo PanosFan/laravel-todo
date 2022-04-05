@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use App\Models\Todo;
 
 class TodosController extends Controller
 {
@@ -17,7 +19,8 @@ class TodosController extends Controller
      */
     public function index()
     {
-        return view('todos.index');
+        $todos = Todo::where('user_id', Auth::user()->id)->get();
+        return view('todos.index')->with('todos', $todos);
     }
 
     /**
@@ -38,7 +41,17 @@ class TodosController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validate($request, [
+            'title' => 'required'
+        ]);
+
+        $todo = new Todo;
+        $todo->title = $request->input('title');
+        $todo->description = $request->input('description');
+        if ($request->has('completed')) $todo->completed = true;
+        $todo->user_id = Auth::user()->id;
+        $todo->save();
+        return back()->with('success', 'Todo added');
     }
 
     /**
@@ -60,7 +73,8 @@ class TodosController extends Controller
      */
     public function edit($id)
     {
-        //
+        $todo = Todo::where('id', $id)->where('user_id', Auth::user()->id)->first();
+        return view('todos.edit')->with('todo', $todo);
     }
 
     /**
@@ -72,7 +86,20 @@ class TodosController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $this->validate($request, [
+            'title' => 'required'
+        ]);
+
+        $todo = Todo::find($id);
+        $todo->title = $request->input('title');
+        $todo->description = $request->input('description');
+        if ($request->has('completed')) {
+            $todo->completed = true;
+        } else {
+            $todo->completed = false;
+        }
+        $todo->save();
+        return back()->with('success', 'Todo updated');
     }
 
     /**
@@ -83,6 +110,8 @@ class TodosController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $todo = Todo::find($id);
+        $todo->delete();
+        return redirect()->route('todo.index');
     }
 }

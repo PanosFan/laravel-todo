@@ -20,7 +20,8 @@ class TodosController extends Controller
     public function index()
     {
         $todos = Todo::where('user_id', Auth::user()->id)->get();
-        return view('todos.index')->with('todos', $todos);
+        // return view('todos.index')->with('todos', $todos);
+        return view('todos.index', compact('todos'));
     }
 
     /**
